@@ -1,3 +1,5 @@
+import java.sql.ResultSet;
+
 public class StudentDAO {
     private Student student;
     private ConnectDB connectDB;
@@ -13,9 +15,16 @@ public class StudentDAO {
         connectDB.update(query);
     }
 
-    public void read() {
+    public ResultSet read() {
         String query = "SELECT * FROM etudiant WHERE id = " + student.getId();
-        connectDB.execute(query);
+        ResultSet res = connectDB.execute(query);
+        return res;
+    }
+    
+    public ResultSet readAll() {
+        String query = "SELECT * FROM etudiant";
+        ResultSet res = connectDB.execute(query);
+        return res;
     }
 
     public void update() {

@@ -33,20 +33,15 @@ public class ConnectDB {
 		return myConn;
 	}
 	
-	public void execute(String query) {
+	public ResultSet execute(String query) {
 		try {
 			ResultSet result = instruction.executeQuery(query);
-			int i = 0;
-			while( result.next()) {
-				int num = result.getInt("id");
-				String ch = result.getString("name");
-				System.out.println("line " + i + " : " + num + " , " + ch);
-				i++;
-			}
+			return result;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null; 
 		
 	}
 	

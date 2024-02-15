@@ -1,6 +1,8 @@
 
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -153,10 +155,12 @@ public class ApplicationDisplay extends javax.swing.JFrame {
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         try {
-            String sql = "INSERT INTO etudiant (id, name) VALUES ('" + inputId.getText() + "','" + inputName.getText() + "')";
-            Connection conn = (Connection) ConnectDB.connectDB();
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            pst.execute();
+        	Student s = new Student();
+        	s.setId(Integer.parseInt(inputId.getText()));
+        	s.setName(inputName.getText());
+            ConnectDB c = new ConnectDB();
+            StudentDAO yes = new StudentDAO(s, c);
+            yes.create();
             JOptionPane.showMessageDialog(null, "Data saved successfully");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -167,10 +171,12 @@ public class ApplicationDisplay extends javax.swing.JFrame {
 
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
         try {
-            String sql ="UPDATE etudiant SET id = '"+inputId.getText()+"', name = '"+inputName.getText()+"' WHERE id = '"+inputId.getText()+"'";
-            Connection conn=(Connection)ConnectDB.connectDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            pst.execute();
+        	Student s = new Student();
+        	s.setId(Integer.parseInt(inputId.getText()));
+        	s.setName(inputName.getText());
+            ConnectDB c = new ConnectDB();
+            StudentDAO yes = new StudentDAO(s, c);
+            yes.update();
             JOptionPane.showMessageDialog(null, "Data edited successfully");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Failed to edit data"+e.getMessage());
@@ -181,10 +187,11 @@ public class ApplicationDisplay extends javax.swing.JFrame {
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         try {
-            String sql ="delete from etudiant where id='"+ inputId.getText()+"'";
-            Connection conn=(Connection)ConnectDB.connectDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            pst.execute();
+        	Student s = new Student();
+        	s.setId(Integer.parseInt(inputId.getText()));
+            ConnectDB c = new ConnectDB();
+            StudentDAO yes = new StudentDAO(s, c);
+            yes.delete();
             JOptionPane.showMessageDialog(this, "Successfully deleted");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -237,10 +244,10 @@ public class ApplicationDisplay extends javax.swing.JFrame {
         model.addColumn("Name");
 
         try {
-            String sql = "select * from etudiant";
-            Connection conn = (Connection) ConnectDB.connectDB();
-            java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet res = stm.executeQuery(sql);
+        	Student s = new Student();
+            ConnectDB c = new ConnectDB();
+            StudentDAO yes = new StudentDAO(s, c);
+            ResultSet res = yes.readAll();
             while (res.next()) {
                 model.addRow(new Object[]{res.getString(1), res.getString(2)});
             }

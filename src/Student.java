@@ -1,11 +1,9 @@
 
 public class Student {
-	private int id;
-	private String name;
+	private int id=0;
+	private String name="";
 	
-	public Student(int id, String name) {
-        this.id = id;
-        this.name = name;
+	public Student() {
     }
 	public int getId() {
 		return id;
